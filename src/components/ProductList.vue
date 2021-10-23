@@ -2,15 +2,14 @@
   <div class="product-list">
     <div class="flex top-information">
       <h1>Письменные столы</h1>
-      <Search v-model="searchText" />
-      {{ searchText }}
+      <Search @search="searchProducts" />
       <!-- <input type="text" class="search" :value="searchText" @input="searchText = $event.target.value"> -->
-      <button>Найти</button>
+     
       
     </div>
     <ul class="list-default row">
         <li
-          v-for="(product, index) in products"
+          v-for="(product, index) in find"
           :key="index"
         >
           <ProductCard
@@ -61,6 +60,16 @@ export default {
   methods: {
     addToBasket(index){
       console.log(index);
+    },
+    searchProducts(text){
+      this.searchText = text
+      console.log(this.find);      
+    }
+  },
+  computed: {
+    find(){
+      const regEx = new RegExp(this.searchText, "i");
+      return this.products.filter(x => x.title.match(regEx))
     }
   }
 }
